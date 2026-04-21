@@ -1,0 +1,100 @@
+EXPENSE & REIMBURSEMENT POLICY
+Version: 4.1 | Last Updated: January 2024 | Owner: Finance Department
+
+═══════════════════════════════════════════════════════════
+
+1. OVERVIEW
+===========
+Acme Corporation reimburses employees for reasonable, pre-approved business expenses.
+This policy defines what qualifies, spending limits, and how to submit claims.
+
+All expenses must be submitted within 30 days of being incurred.
+Late submissions (> 30 days) require Finance Director approval.
+
+═══════════════════════════════════════════════════════════
+
+2. APPROVED EXPENSE CATEGORIES
+================================
+
+2.1 Travel
+----------
+  • Flights: Economy class for journeys < 6 hours; Business permitted for 6+ hours
+    (VP approval required for Business class)
+  • Hotel: Up to $200 USD/night in standard markets; $300 in high-cost cities
+    (NYC, SF, London, Tokyo, etc.) — book via the corporate travel portal
+  • Ground transport: Uber/Lyft/taxi fully reimbursed; personal car at $0.67/mile (IRS 2024 rate)
+  • Meals during travel: Up to $80 USD/day (no itemisation required below limit)
+  • Per diem option available for international travel — contact Finance
+
+2.2 Client Entertainment
+------------------------
+  • Meals with clients: Up to $120 per person (manager approval required)
+  • Gifts to clients: Up to $50 per person per year (must be documented)
+  • Events/tickets: Require VP approval; directly billed where possible
+
+2.3 Office & Supplies
+----------------------
+  • Home office supplies: Up to $200/year without additional approval
+  • Equipment (monitor, keyboard, etc.): Requires IT and manager approval;
+    purchased through IT catalogue at portal.acmecorp.com → Hardware
+
+2.4 Training & Conferences
+---------------------------
+  • Within L&D budget ($1,500/year per employee): No additional approval needed
+  • Above L&D budget: Manager + HR approval required before spending
+  • All training expenses submitted via Workday → Expenses → Training
+
+2.5 Software & Subscriptions
+------------------------------
+  • Must be on the IT-approved software list
+  • Individual subscriptions not on the approved list require IT + manager sign-off
+  • Team/enterprise licences: Procured through IT; do not purchase independently
+
+═══════════════════════════════════════════════════════════
+
+3. WHAT IS NOT REIMBURSED
+==========================
+  × Alcohol (unless part of an approved client entertainment meal;
+    alcohol is capped at 20% of total meal cost)
+  × Personal entertainment, fines, or traffic tickets
+  × First-class flights or luxury hotel upgrades
+  × Spouse/partner travel unless pre-approved by a VP
+  × Personal care items, clothing, gym memberships
+  × Expenses without receipts (receipts required for all items ≥ $25)
+
+═══════════════════════════════════════════════════════════
+
+4. SUBMITTING AN EXPENSE REPORT
+================================
+Step-by-step:
+  1. Collect all receipts (photo/scan accepted; must be legible)
+  2. Log in to Workday: https://acmecorp.workday.com
+  3. Go to Expenses → Create Expense Report
+  4. Select expense type, date, amount, currency, and purpose
+  5. Attach receipt images
+  6. Add business justification (one sentence minimum)
+  7. Submit for manager approval
+  8. Finance reviews after manager approval
+  9. Reimbursement processed in next payroll cycle (biweekly)
+
+Mobile app: Download Workday app → same process from your phone.
+
+═══════════════════════════════════════════════════════════
+
+5. CORPORATE CREDIT CARD (P-Card)
+===================================
+Senior employees (Grade 7+) may request a P-Card for frequent business expenses.
+  • Request: IT Self-Service → Finance → P-Card Application
+  • Monthly statement must be reconciled in Workday by the 5th of each month
+  • Personal charges on P-Card result in immediate card suspension
+
+P-Card limits: $2,000/transaction | $10,000/month (default)
+
+═══════════════════════════════════════════════════════════
+
+6. COMPLIANCE
+=============
+Submitting fraudulent or inflated expenses is a terminable offence and may be
+referred to law enforcement. Finance conducts random audits of expense reports.
+
+Questions? Contact: finance-help@acmecorp.com | ext. 3100

@@ -1,0 +1,119 @@
+LEAVE & TIME-OFF POLICY
+Version: 6.0 | Last Updated: January 1, 2024 | Owner: Human Resources
+
+═══════════════════════════════════════════════════════════
+
+1. ANNUAL (VACATION) LEAVE
+===========================
+Leave accrues from the first day of employment.
+
+| Service Length | Annual Entitlement |
+|----------------|--------------------|
+| 0 – 2 years    | 15 days            |
+| 3 – 5 years    | 18 days            |
+| 6+ years       | 22 days            |
+
+Accrual: Leave accrues monthly (e.g., 15 days = 1.25 days/month).
+Carryover: Up to 5 unused days may carry over to the next calendar year.
+           Days beyond 5 are forfeited on January 1.
+Payout: Accrued unused leave is paid out upon resignation or termination.
+
+Minimum booking unit: Half-day (0.5 days).
+
+═══════════════════════════════════════════════════════════
+
+2. SICK LEAVE
+=============
+Entitlement: 10 days per calendar year (non-accruing, front-loaded on January 1).
+No carryover. Unused sick days are forfeited at year-end.
+
+Extended illness:
+  • After 5 consecutive sick days, a medical certificate is required.
+  • After 10 days, short-term disability (STD) benefits may apply — contact HR.
+
+New hires receive a pro-rated sick leave allocation based on start date.
+
+═══════════════════════════════════════════════════════════
+
+3. PERSONAL DAYS
+================
+Entitlement: 3 days per year (non-accruing, no carryover).
+Use: No reason required; booked like annual leave but tracked separately.
+
+═══════════════════════════════════════════════════════════
+
+4. PARENTAL LEAVE
+=================
+Primary carer:  16 weeks fully paid
+Secondary carer: 6 weeks fully paid
+
+Eligibility: Employees with ≥ 6 months of service.
+  • Covers birth, adoption, and fostering.
+  • Must notify HR at least 8 weeks before leave is expected to begin.
+  • Additional unpaid leave of up to 12 weeks may be requested.
+
+Parental leave does not affect annual leave accrual or benefits.
+
+═══════════════════════════════════════════════════════════
+
+5. BEREAVEMENT LEAVE
+====================
+Immediate family (spouse, child, parent, sibling, grandparent): 5 days
+Extended family (in-laws, aunts/uncles, cousins):               3 days
+Close friends (at manager's discretion):                         1 day
+
+Leave can be taken non-consecutively within 30 days of the bereavement.
+Supporting documentation may be requested by HR.
+
+═══════════════════════════════════════════════════════════
+
+6. PUBLIC HOLIDAYS
+==================
+Employees receive all statutory public holidays applicable to their country/state.
+US employees receive 11 federal holidays + 2 company-designated "Recharge Days."
+
+If a public holiday falls on a weekend, the preceding Friday or following Monday
+is observed (unless business-critical).
+
+Full public holiday calendar: https://hr.acmecorp.com/holidays
+
+═══════════════════════════════════════════════════════════
+
+7. OTHER LEAVE TYPES
+====================
+Jury duty:       Fully paid for up to 15 days; notify HR immediately on summons.
+Military leave:  As required by applicable law; contact HR for details.
+Study/exam leave: Up to 5 days/year for approved qualification examinations.
+Volunteer leave: 2 days/year for approved charitable activities.
+
+═══════════════════════════════════════════════════════════
+
+8. HOW TO REQUEST LEAVE
+========================
+  1. Discuss with your manager at least 2 weeks in advance (emergency leave excepted).
+  2. Log in to Workday: Workday → My Team → Time Off → Request Leave
+  3. Select leave type, dates, and add a note if desired.
+  4. Your manager approves or declines within 2 business days.
+  5. You will receive an email confirmation.
+
+Team calendar visibility: Your leave is shown on the team calendar in Outlook/Teams
+once approved.
+
+═══════════════════════════════════════════════════════════
+
+9. LEAVE WITHOUT PAY (LWOP)
+============================
+In exceptional circumstances unpaid leave may be granted for:
+  — Extended personal or family matters
+  — Career breaks (sabbaticals)
+  — Voluntary public service
+
+Maximum LWOP: 12 months. Requires VP + HR Director approval.
+Benefits are suspended during LWOP periods exceeding 30 days.
+
+═══════════════════════════════════════════════════════════
+
+10. CONTACTS
+============
+HR Queries:   hr@acmecorp.com | ext. 3200
+Workday Help: workday-help@acmecorp.com

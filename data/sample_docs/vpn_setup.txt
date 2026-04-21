@@ -1,0 +1,118 @@
+VPN SETUP GUIDE
+Version: 3.1 | Last Updated: January 15, 2024 | Owner: IT Department
+
+═══════════════════════════════════════════════════════════
+
+1. OVERVIEW
+===========
+The company VPN (Virtual Private Network) provides encrypted, secure
+access to internal systems from outside the corporate network. All
+remote work MUST use VPN when accessing internal resources.
+
+Supported platforms: Windows 10/11, macOS 12+, Ubuntu 20.04+, iOS 16+, Android 12+
+
+VPN Client: GlobalConnect v5.2 (latest)
+Server address: vpn.acmecorp.com
+
+═══════════════════════════════════════════════════════════
+
+2. PREREQUISITES
+================
+Before installation you need:
+  a) A company-managed device -OR- a personal device registered in MDM
+     (visit: https://portal.acmecorp.com/device-enrollment)
+  b) Active employee account: firstname.lastname@acmecorp.com
+  c) Microsoft Authenticator app installed on your phone (MFA is mandatory)
+  d) Stable internet connection (≥ 10 Mbps recommended)
+
+═══════════════════════════════════════════════════════════
+
+3. INSTALLATION
+===============
+
+3.1 Windows
+-----------
+1. Open Employee Self-Service Portal: https://portal.acmecorp.com
+2. Navigate to IT → Downloads → VPN Client
+3. Download "GlobalConnect_Win_v5.2.exe"
+4. Right-click the installer → Run as Administrator
+5. Accept the EULA and click Install
+6. Restart your machine when prompted
+
+3.2 macOS
+---------
+1. Open Employee Self-Service Portal: https://portal.acmecorp.com
+2. Navigate to IT → Downloads → VPN Client
+3. Download "GlobalConnect_Mac_v5.2.pkg"
+4. Double-click the .pkg; follow the wizard
+5. Approve the system extension in System Settings → Privacy & Security
+6. Restart your Mac
+
+3.3 Mobile (iOS / Android)
+---------------------------
+1. Search "GlobalConnect VPN" in the App Store or Google Play
+2. Install and open the app
+3. Enter server: vpn.acmecorp.com
+4. Sign in with your corporate credentials
+
+═══════════════════════════════════════════════════════════
+
+4. CONFIGURATION & FIRST CONNECTION
+=====================================
+After installing GlobalConnect:
+  1. Open the application
+  2. Server field: vpn.acmecorp.com
+  3. Authentication: "Corporate SSO + MFA"
+  4. Click Connect
+  5. A browser window opens → sign in with your @acmecorp.com account
+  6. Approve the MFA push notification in Microsoft Authenticator
+  7. A green padlock icon confirms an active VPN connection
+
+Recommended settings (optional):
+  • Enable "Auto-connect on trusted networks" – connects automatically
+    when on non-office Wi-Fi.
+  • Split tunneling is DISABLED for security – all traffic routes through VPN.
+
+═══════════════════════════════════════════════════════════
+
+5. MULTI-FACTOR AUTHENTICATION (MFA) SETUP
+==========================================
+VPN requires MFA on every connection.
+
+If you have not set up MFA yet:
+  1. Go to https://aka.ms/mfasetup
+  2. Sign in with your corporate account
+  3. Choose "Microsoft Authenticator app"
+  4. Scan the QR code shown on screen
+  5. Enter the 6-digit code to confirm setup
+
+Need help? Contact IT Help Desk: it-help@acmecorp.com | ext. 4357
+
+═══════════════════════════════════════════════════════════
+
+6. TROUBLESHOOTING
+==================
+| Problem                     | Solution                                        |
+|-----------------------------|------------------------------------------------|
+| "Authentication failed"     | Reset password at https://passwords.acmecorp.com|
+| MFA loop / push not arriving| Re-enroll MFA at https://aka.ms/mfasetup       |
+| Connection drops repeatedly | Switch protocol: Settings → IKEv2 → WireGuard   |
+| Can't access internal apps  | Ensure VPN shows "Connected"; restart client    |
+| Slow VPN speeds             | Report to IT; check regional server list        |
+
+═══════════════════════════════════════════════════════════
+
+7. USAGE POLICIES
+=================
+  • ALWAYS connect to VPN before accessing internal resources remotely.
+  • Never share your VPN credentials with anyone.
+  • Disconnect VPN on personal devices when not working.
+  • Report suspicious access or connectivity anomalies to security@acmecorp.com
+
+═══════════════════════════════════════════════════════════
+
+8. SUPPORT
+==========
+IT Help Desk: it-help@acmecorp.com | Phone: ext. 4357
+Hours: Monday–Friday, 8 AM – 6 PM EST
+After-hours emergency: security@acmecorp.com | ext. 9911

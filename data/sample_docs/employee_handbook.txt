@@ -1,0 +1,103 @@
+EMPLOYEE HANDBOOK
+Version: 8.0 | Last Updated: February 1, 2024 | Owner: Human Resources
+
+═══════════════════════════════════════════════════════════
+
+1. WELCOME
+==========
+Welcome to Acme Corporation! This handbook outlines your rights, responsibilities,
+and the key policies that govern employment here. Please read it carefully and keep
+it as a reference.
+
+═══════════════════════════════════════════════════════════
+
+2. CODE OF CONDUCT
+==================
+Every employee is expected to:
+  • Act with integrity and treat colleagues, customers, and partners with respect.
+  • Avoid conflicts of interest and disclose any potential conflicts to HR.
+  • Protect confidential company and customer information.
+  • Comply with all applicable laws and regulations.
+  • Report policy violations to ethics@acmecorp.com (anonymous reporting available).
+
+Zero-tolerance behaviours include harassment, discrimination, fraud, and workplace violence.
+
+═══════════════════════════════════════════════════════════
+
+3. WORK HOURS & REMOTE WORK
+============================
+Standard hours: 9 AM – 5 PM local time (flexible with manager approval).
+Core hours (must be available): 10 AM – 3 PM.
+
+Remote work:
+  • Up to 3 days/week remote is permitted for eligible roles.
+  • Full-remote arrangements require written VP approval.
+  • All remote work requires use of the company VPN.
+  • Employees must be reachable via Slack/Teams during core hours.
+
+═══════════════════════════════════════════════════════════
+
+4. LEAVE ENTITLEMENTS
+=====================
+Annual (vacation) leave:
+  • Years 0–2:  15 days / year
+  • Years 3–5:  18 days / year
+  • Years 6+:   22 days / year
+
+Sick leave:        10 days / year (no carryover)
+Personal days:      3 days / year
+Parental leave:    16 weeks primary carer | 6 weeks secondary carer (paid)
+Bereavement:        5 days for immediate family; 3 days extended family
+Public holidays:   As mandated by your country/state of employment
+
+To book leave: Workday → My Team → Time Off → Request Leave
+
+═══════════════════════════════════════════════════════════
+
+5. PERFORMANCE REVIEWS
+======================
+  • Annual review: January each year (self-assessment + manager review)
+  • Mid-year check-in: July (informal, not rated)
+  • New hire 30/60/90-day check-ins during probation period
+  • Ratings scale: Exceeds / Meets / Partially Meets / Does Not Meet expectations
+
+Raises and bonuses are tied to performance rating and company results.
+
+═══════════════════════════════════════════════════════════
+
+6. LEARNING & DEVELOPMENT
+==========================
+  • Each employee has an annual L&D budget of $1,500 USD.
+  • Access LinkedIn Learning, Pluralsight, and internal Acme Academy at no cost.
+  • External training/conferences require manager approval before booking.
+  • Reimbursement form: Workday → Expenses → Training & Development
+
+═══════════════════════════════════════════════════════════
+
+7. BENEFITS SUMMARY
+===================
+  • Health insurance: Medical, Dental, Vision (details in Benefits Guide)
+  • Retirement: 401(k) with 4% company match (vests after 1 year)
+  • Life insurance: 2× annual salary, company-paid
+  • Employee Assistance Programme (EAP): Free 24/7 confidential counselling
+  • Home office stipend: $500 one-time for remote-eligible employees
+
+Full benefits details: https://benefits.acmecorp.com
+
+═══════════════════════════════════════════════════════════
+
+8. IT & EQUIPMENT
+==================
+  • Hardware is provided for all employees; personal devices need MDM enrolment.
+  • Software requests: IT Self-Service portal → New Request → Software.
+  • Lost or stolen devices must be reported to IT Helpdesk within 2 hours.
+
+═══════════════════════════════════════════════════════════
+
+9. CONTACT DIRECTORY
+====================
+HR queries:          hr@acmecorp.com         | ext. 3200
+IT Help Desk:        it-help@acmecorp.com    | ext. 4357
+Payroll:             payroll@acmecorp.com    | ext. 3100
+Ethics / Concerns:   ethics@acmecorp.com     (anonymous)
+Security incidents:  security@acmecorp.com   | ext. 9911

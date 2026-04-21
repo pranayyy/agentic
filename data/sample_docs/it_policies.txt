@@ -1,0 +1,127 @@
+IT SECURITY POLICIES
+Version: 5.2 | Last Updated: March 10, 2024 | Owner: Information Security Team
+
+═══════════════════════════════════════════════════════════
+
+1. PURPOSE
+==========
+This policy protects Acme Corporation's information assets, systems, and data from
+unauthorised access, misuse, or breach. All employees, contractors, and third-party
+users with access to company systems must comply.
+
+═══════════════════════════════════════════════════════════
+
+2. PASSWORD REQUIREMENTS
+=========================
+Minimum password length: 14 characters
+Complexity: At least 1 uppercase, 1 lowercase, 1 digit, 1 special character
+Password reuse: Last 12 passwords may not be reused
+Expiry: Passwords expire every 90 days (prompted automatically)
+Password manager: 1Password is the approved corporate tool (licences provided)
+  — Download from: https://portal.acmecorp.com → Software → 1Password
+
+Never write passwords down or share them with anyone, including IT staff.
+
+═══════════════════════════════════════════════════════════
+
+3. MULTI-FACTOR AUTHENTICATION (MFA)
+=====================================
+MFA is mandatory for:
+  • Corporate email (Microsoft 365)
+  • VPN connections
+  • All cloud SaaS applications in the approved app catalogue
+  • The Employee Self-Service Portal
+
+Approved MFA methods (in order of preference):
+  1. Microsoft Authenticator app (push notification)
+  2. Hardware security key (YubiKey — request from IT)
+  3. TOTP authenticator app (Google Authenticator, Authy)
+
+SMS-based MFA is NOT approved due to SIM-swap vulnerabilities.
+
+═══════════════════════════════════════════════════════════
+
+4. DEVICE POLICY
+================
+All devices accessing corporate data must:
+  a) Be enrolled in Microsoft Intune (MDM)
+  b) Run an approved, up-to-date OS
+     — Windows 11 22H2+ | macOS 13+ | iOS 16+ | Android 12+
+  c) Have disk encryption enabled (BitLocker / FileVault)
+  d) Have corporate endpoint protection (Defender for Business) installed
+  e) Apply security patches within 7 days of release
+
+Personal devices are permitted under BYOD Policy (see Section 6).
+
+═══════════════════════════════════════════════════════════
+
+5. DATA CLASSIFICATION
+=======================
+| Level          | Examples                          | Controls                |
+|----------------|-----------------------------------|-------------------------|
+| Public         | Marketing materials, job postings | None required           |
+| Internal       | Policies, wikis, project docs     | Login required          |
+| Confidential   | Customer data, financials, IP     | MFA + encryption        |
+| Restricted     | PII, credentials, legal docs      | MFA + DLP + approval    |
+
+Employees must only access data required for their role (least-privilege principle).
+
+═══════════════════════════════════════════════════════════
+
+6. BYOD (BRING YOUR OWN DEVICE) POLICY
+========================================
+Personal devices may access corporate email and approved apps IF:
+  • Enrolled in Intune Company Portal app
+  • Corporate data kept in approved apps (Outlook, Teams, OneDrive)
+  • Device PIN/biometric lock enabled
+  • Remote wipe of corporate data is consented to
+
+BYOD devices cannot access the development environment, financial systems, or
+Restricted-classified data.
+
+═══════════════════════════════════════════════════════════
+
+7. ACCEPTABLE USE
+==================
+Permitted:
+  • Use of company systems for legitimate business purposes
+  • Limited personal use that does not impact productivity or security
+
+Not permitted:
+  • Downloading or installing unapproved software
+  • Accessing torrent sites, adult content, or gambling sites
+  • Using personal cloud storage (Google Drive, Dropbox) for company data
+  • Circumventing security controls (VPN kill switches, firewalls)
+  • Mining cryptocurrency on company resources
+
+═══════════════════════════════════════════════════════════
+
+8. INCIDENT RESPONSE
+====================
+If you suspect a security incident (phishing, malware, unauthorised access):
+  1. Do NOT click links or attachments if phishing is suspected
+  2. Disconnect the affected device from the network
+  3. Report IMMEDIATELY to: security@acmecorp.com | ext. 9911
+  4. Preserve all evidence (do not restart or wipe the device)
+  5. Follow instructions from the Security Operations team
+
+Never attempt to investigate or remediate an incident yourself.
+
+═══════════════════════════════════════════════════════════
+
+9. COMPLIANCE & CONSEQUENCES
+=============================
+Policy violations are subject to disciplinary action up to and including termination.
+Serious violations may be referred to law enforcement.
+
+Annual security awareness training is mandatory for all employees.
+Completion deadline: 30 days from hire date; annually thereafter.
+Training platform: https://training.acmecorp.com
+
+═══════════════════════════════════════════════════════════
+
+10. CONTACTS
+============
+Information Security Team:  security@acmecorp.com | ext. 9911
+IT Help Desk (general):     it-help@acmecorp.com  | ext. 4357
+DLP / Data queries:         dpo@acmecorp.com

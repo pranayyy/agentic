@@ -1,0 +1,106 @@
+NEW EMPLOYEE ONBOARDING GUIDE
+Version: 3.5 | Last Updated: February 2024 | Owner: Human Resources & IT
+
+═══════════════════════════════════════════════════════════
+
+WELCOME TO ACME CORPORATION!
+This guide walks you through everything you need to do in your first 30 days.
+
+═══════════════════════════════════════════════════════════
+
+DAY 1 CHECKLIST
+================
+□ Collect your laptop and access badge from Reception (Building A, ground floor)
+□ Sign the Acceptable Use Policy and NDA (HR will send via DocuSign)
+□ Attend IT orientation (9 AM, Room 204 — or virtual link sent by calendar)
+□ Set up your email: firstname.lastname@acmecorp.com
+□ Change your temporary password at https://passwords.acmecorp.com
+□ Enrol in MFA at https://aka.ms/mfasetup
+□ Install required software (IT Self-Service portal → New Hire Bundle)
+□ Join your team Slack workspace and the #new-hires channel
+□ Meet your buddy (assigned by your manager before Day 1)
+
+═══════════════════════════════════════════════════════════
+
+WEEK 1 TASKS
+=============
+□ Complete mandatory HR training in Workday (Employee Handbook acknowledgement)
+□ Complete IT Security Awareness training at https://training.acmecorp.com
+  ⚠ Must be completed within 30 days of start date
+□ Set up 1Password (corporate password manager — licence provided via IT)
+□ Enrol your device in MDM (Intune):
+     Windows: Company Portal app from Microsoft Store
+     macOS: Company Portal from Self-Service Portal
+□ Set up VPN access (see full VPN Setup Guide in the IT Wiki)
+□ Schedule 1:1 meetings with key team members (your manager will share a list)
+□ Review your role's 30/60/90-day goals with your manager
+
+═══════════════════════════════════════════════════════════
+
+ESSENTIAL ACCOUNTS & TOOLS
+============================
+| Tool               | Access Method                              |
+|--------------------|--------------------------------------------|
+| Email (Outlook)    | outlook.office.com or desktop app          |
+| Teams              | Download from portal.acmecorp.com/software |
+| Slack              | acmecorp.slack.com (invite sent via email) |
+| JIRA               | jira.acmecorp.com (request access in IT)   |
+| Confluence (Wiki)  | wiki.acmecorp.com                          |
+| Workday (HR/Payroll)| wd3.myworkday.com/acmecorp                |
+| GitHub (Engineering)| github.com/acmecorp (IT grants access)    |
+| 1Password          | 1password.com (licence in IT portal)       |
+
+All access requests: IT Self-Service → New Request → Application Access
+
+═══════════════════════════════════════════════════════════
+
+PAYROLL SETUP
+=============
+  1. Log in to Workday → Pay → Payment Elections
+  2. Enter your bank details for direct deposit
+  3. Payroll runs biweekly (every other Friday)
+  4. Pay stubs available in Workday → Pay → Payslips
+  5. Tax forms (W-4/state forms): Workday → Benefits & Pay → Tax Elections
+
+Payroll questions: payroll@acmecorp.com | ext. 3100
+
+═══════════════════════════════════════════════════════════
+
+BENEFITS ENROLMENT
+==================
+You have 30 days from your start date to enrol in benefits.
+After 30 days, you must wait for the annual open-enrolment window.
+
+  1. Log in to Workday → Benefits → Enrol in Benefits
+  2. Review medical, dental, and vision plan options
+  3. Nominate beneficiaries for life insurance and retirement
+
+Benefits guide: https://benefits.acmecorp.com
+Benefits questions: benefits@acmecorp.com | ext. 3200
+
+═══════════════════════════════════════════════════════════
+
+30/60/90-DAY MILESTONES
+=========================
+Day 30:  Complete all mandatory training; HR check-in with your manager
+Day 60:  Mid-probation review — discuss progress against role goals
+Day 90:  End-of-probation review — formal performance conversation with manager
+         (Probation confirmed or extended as needed)
+
+═══════════════════════════════════════════════════════════
+
+USEFUL LINKS
+============
+Employee Portal:      https://portal.acmecorp.com
+Internal Wiki:        https://wiki.acmecorp.com
+HR Self-Service:      https://hr.acmecorp.com
+IT Self-Service:      https://it.acmecorp.com
+Benefits Portal:      https://benefits.acmecorp.com
+Training Platform:    https://training.acmecorp.com
+
+CONTACTS
+========
+Your Buddy:           See calendar invite from your manager
+HR (new hire):        onboarding@acmecorp.com | ext. 3205
+IT Help Desk:         it-help@acmecorp.com    | ext. 4357
+Facilities / Badge:   facilities@acmecorp.com | ext. 2000
