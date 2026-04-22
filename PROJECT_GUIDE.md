@@ -17,11 +17,13 @@
 9. [Human-in-the-Loop](#9-human-in-the-loop)
 10. [State — The Shared Memory](#10-state--the-shared-memory)
 11. [MCP Transport Options](#11-mcp-transport-options)
-12. [File-by-File Reference](#12-file-by-file-reference)
-13. [Configuration Reference](#13-configuration-reference)
-14. [How to Add New Documents](#14-how-to-add-new-documents)
-15. [How to Add a New MCP Tool](#15-how-to-add-a-new-mcp-tool)
-16. [Common Errors & Fixes](#16-common-errors--fixes)
+12. [Streamlit UI](#12-streamlit-ui)
+13. [Observability — Langfuse + Terminal Logging](#13-observability--langfuse--terminal-logging)
+14. [File-by-File Reference](#14-file-by-file-reference)
+15. [Configuration Reference](#15-configuration-reference)
+16. [How to Add New Documents](#16-how-to-add-new-documents)
+17. [How to Add a New MCP Tool](#17-how-to-add-a-new-mcp-tool)
+18. [Common Errors & Fixes](#18-common-errors--fixes)
 
 ---
 
@@ -48,6 +50,9 @@ The system:
 | **Embeddings** | HuggingFace `all-MiniLM-L6-v2` | Local model — no API key needed |
 | **Web Search** | Tavily (`langchain-tavily`) | Real-time internet retrieval |
 | **MCP Tools** | FastMCP | Exposes processing logic as MCP-protocol tools |
+| **UI** | Streamlit | Interactive chat interface with sidebar controls |
+| **Observability** | Langfuse v4 | Per-question tracing, spans, scores on cloud dashboard |
+| **Terminal Logging** | Python `logging` | Node-level debug logs printed to terminal |
 | **Environment** | python-dotenv | `.env` key management |
 
 ---
@@ -57,18 +62,22 @@ The system:
 ```
 agentic/
 │
+├── app.py                     ← Streamlit UI entry point (run with: streamlit run app.py)
 ├── main.py                    ← CLI entry point. Loads KB, builds graph, runs Q&A loop.
 ├── demo.py                    ← Non-interactive demo with 3 preset questions.
 ├── run_mcp_server.py          ← Standalone FastMCP server (stdio or SSE).
 ├── requirements.txt
 ├── .env                       ← Your real API keys (never commit this).
-├── .env.example               ← Template showing all required variables.
+│
+├── .streamlit/
+│   └── config.toml            ← Streamlit config: disables file watcher, sets log level.
 │
 ├── agent/                     ← LangGraph agent logic
 │   ├── graph.py               ← Builds and compiles the StateGraph.
-│   ├── nodes.py               ← Every node function (one per workflow step).
+│   ├── nodes.py               ← Every node function (one per workflow step) + debug logs.
 │   ├── state.py               ← AgentState TypedDict — shared memory for all nodes.
 │   ├── mcp_client.py          ← Bridges sync LangGraph nodes → async FastMCP Client.
+│   ├── observability.py       ← Langfuse v4 tracing helpers (traces, spans, scores).
 │   └── utils.py               ← Robust JSON parser for LLM responses.
 │
 ├── processors/                ← FastMCP server + 3 tool implementations
@@ -472,17 +481,140 @@ Client connects via HTTP. Multiple simultaneous clients supported.
 
 ---
 
-## 12. File-by-File Reference
+## 12. Streamlit UI
+
+Run the app with:
+```powershell
+streamlit run app.py
+```
+
+### Features
+- **Chat interface** — persistent message history across questions in the same session.
+- **Human-in-the-loop UI** — when the agent flags an answer for review, the UI shows the flagged issues inline and prompts for reviewer feedback without leaving the browser.
+- **Answer rendering** — structured display: answer text, confidence badge, ranked source citations (Internal/Web tagged), differences expander, flagged issues expander.
+- **Sidebar** — live configuration display (model, API key status), example question buttons, observability status with trace links, and a Clear conversation button.
+
+### Session State Keys
+
+| Key | Purpose |
+|---|---|
+| `messages` | Full chat history list |
+| `thread_id` | Stable LangGraph checkpointer ID — one per browser session |
+| `awaiting_review` | `True` when graph is paused at `human_review` interrupt |
+| `interrupt_data` | Payload from the interrupt (reasons, flagged issues, confidence) |
+| `last_config` | LangGraph config dict — reused on `Command(resume=...)` |
+| `last_trace_id` | Langfuse trace ID of the most recent question |
+| `last_trace_url` | Direct Langfuse dashboard URL for the most recent trace |
+| `trace_history` | List of `{question, trace_id, trace_url}` for all questions this session |
+
+### Key Design Decisions
+- **`thread_id` vs `trace_id` are separate** — `thread_id` is stable per session (LangGraph memory), `trace_id` is a new UUID per question (Langfuse tracing). This gives Langfuse one trace per question while keeping LangGraph conversation memory intact.
+- **`@st.cache_resource`** wraps the graph/vectorstore build so the heavy work (embedding model load, ChromaDB init) runs once per server process, not once per page reload.
+
+### Streamlit Config (`.streamlit/config.toml`)
+```toml
+[server]
+fileWatcherType = "none"   # prevents scanning transformers submodules (avoids torchvision errors)
+
+[logger]
+level = "warning"          # only show warnings+ from Streamlit itself
+
+[runner]
+fastReruns = true
+```
+
+---
+
+## 13. Observability — Langfuse + Terminal Logging
+
+### Overview
+
+Two complementary layers:
+1. **Langfuse** (cloud dashboard) — per-question traces with spans, LLM calls, token counts, scores.
+2. **Python `logging`** (terminal) — per-node debug lines printed as code runs.
+
+### Langfuse Setup
+
+Get keys from [cloud.langfuse.com](https://cloud.langfuse.com) → Project Settings → API Keys, then add to `.env`:
+```env
+LANGFUSE_PUBLIC_KEY=pk-lf-...
+LANGFUSE_SECRET_KEY=sk-lf-...
+LANGFUSE_HOST=https://cloud.langfuse.com
+```
+
+When keys are absent every function in `observability.py` is a no-op — the app runs normally without tracing.
+
+### What Gets Traced
+
+| Langfuse entry | When logged | What it contains |
+|---|---|---|
+| **Root trace** (auto) | Each question | All LLM calls + node spans via LangChain callback |
+| `rag_internal_search` span | After `search_internal` node | Chunk count, top doc titles, relevance scores |
+| `mcp_tools_summary` event | After all 3 MCP tools | Tools called, flagged issue count, difference count |
+| `human_review_triggered` event | When graph pauses for review | Review reasons, confidence score (WARNING level) |
+| `human_review` score | After reviewer submits feedback | 1.0 = approved, 0.5 = corrections provided |
+
+### Trace ID Strategy
+
+```
+Per browser session:  thread_id = uuid4()   (stable — LangGraph memory)
+Per question asked:   trace_id  = uuid4()   (new each time — Langfuse trace)
+```
+
+Langfuse v4 requires trace IDs as 32 lowercase hex chars. The `_to_trace_id()` helper in `observability.py` strips dashes from UUIDs automatically.
+
+### Viewing Traces
+
+- **Sidebar "All traces" expander** — lists every question asked this session as a clickable Langfuse dashboard link.
+- **Direct URL** — each link goes to `cloud.langfuse.com/project/.../traces/<trace_id>` showing the full execution tree with latency, tokens, and custom spans.
+
+### Terminal Logging
+
+`app.py` configures `logging.basicConfig(level=INFO)` at startup. Every node in `nodes.py` has a dedicated logger `agent.nodes` that prints:
+
+```
+13:24:01  INFO     agent.nodes — [analyze_query] question='what is the leave policy?'
+13:24:02  INFO     agent.nodes — [analyze_query] intent='Employee wants...' keywords=[...]
+13:24:02  INFO     agent.nodes — [search_internal] searching ChromaDB for: '...'
+13:24:02  INFO     agent.nodes — [search_internal] found 5 docs, top score=0.2341
+13:24:03  INFO     agent.nodes — [evaluate_sufficiency] sufficient=True  reason='...'
+13:24:03  INFO     agent.nodes — [summarize_rank] calling MCP tool summarize_and_rank
+13:24:04  INFO     agent.nodes — [summarize_rank] done, confidence=0.87
+13:24:04  INFO     agent.nodes — [highlight_differences] found 0 differences
+13:24:05  INFO     agent.nodes — [flag_issues] flagged 0 issues, needs_review=False
+13:24:05  INFO     agent.nodes — [synthesize_answer] composing final answer for: '...'
+```
+
+Noisy libraries (httpx, chromadb, langchain, opentelemetry) are set to WARNING to keep the output clean.
+
+### `agent/observability.py` API
+
+| Function | Description |
+|---|---|
+| `is_enabled()` | Returns `True` when both Langfuse keys are set |
+| `get_callback_handler(trace_id, question)` | LangChain callback handler — pass in `config["callbacks"]` |
+| `log_rag_span(trace_id, question, docs)` | Logs retrieval span with doc metadata |
+| `log_mcp_event(trace_id, tools, issues, diffs)` | Logs MCP tool summary event |
+| `log_human_review_event(trace_id, reasons, score)` | Logs human review trigger at WARNING level |
+| `score_human_feedback(trace_id, feedback)` | Posts 1.0/0.5 score after reviewer submits |
+| `get_trace_url(trace_id)` | Returns direct Langfuse dashboard URL |
+| `flush()` | Flushes all pending events to Langfuse server |
+
+---
+
+## 14. File-by-File Reference
 
 | File | Role | Key Functions |
 |---|---|---|
-| `main.py` | Entry point, CLI loop | `main()`, `run_question()`, `display_results()` |
+| `app.py` | Streamlit UI entry point | `load_agent()`, `render_result()`, chat loop, human review UI |
+| `main.py` | CLI entry point | `main()`, `run_question()`, `display_results()` |
 | `demo.py` | Runs 3 preset questions | `run_question()` called 3 times |
 | `run_mcp_server.py` | Standalone MCP server | `main()` with `--transport`, `--port`, `--list-tools` |
 | `agent/graph.py` | Builds LangGraph | `build_graph(vectorstore)` → compiled graph |
-| `agent/nodes.py` | All 9 node functions | One function per workflow step |
+| `agent/nodes.py` | All 9 node functions + logs | One function per workflow step; `log = logging.getLogger("agent.nodes")` |
 | `agent/state.py` | Shared state definition | `AgentState` TypedDict |
 | `agent/mcp_client.py` | Sync/async bridge | `call_mcp_tool()`, `list_mcp_tools()` |
+| `agent/observability.py` | Langfuse v4 tracing | `get_callback_handler()`, `log_rag_span()`, `log_mcp_event()`, `get_trace_url()` |
 | `agent/utils.py` | JSON parser | `parse_llm_json()` — handles markdown blocks, nested objects |
 | `processors/server.py` | FastMCP server | `mcp = FastMCP(...)`, 3 `@mcp.tool` functions |
 | `processors/summarizer.py` | Tool 1 logic | `summarize_and_rank()` |
@@ -490,10 +622,11 @@ Client connects via HTTP. Multiple simultaneous clients supported.
 | `processors/validator.py` | Tool 3 logic | `flag_issues()` |
 | `rag/document_loader.py` | Load + chunk docs | `load_sample_documents()` |
 | `rag/vectorstore.py` | ChromaDB management | `initialize_vectorstore()`, `reset_vectorstore()` |
+| `.streamlit/config.toml` | Streamlit server config | File watcher disabled, log level, fast reruns |
 
 ---
 
-## 13. Configuration Reference
+## 15. Configuration Reference
 
 All settings live in `.env`:
 
@@ -504,10 +637,16 @@ All settings live in `.env`:
 | `MODEL_NAME` | No | `llama-3.1-8b-instant` | Any Groq model with JSON mode |
 | `CHROMA_PERSIST_DIR` | No | `./data/chroma_db` | Where ChromaDB stores vectors |
 | `EMBEDDING_MODEL` | No | `sentence-transformers/all-MiniLM-L6-v2` | Local HuggingFace embedding model |
+| `LANGFUSE_PUBLIC_KEY` | No | — | Langfuse public key — enables Langfuse tracing |
+| `LANGFUSE_SECRET_KEY` | No | — | Langfuse secret key |
+| `LANGFUSE_HOST` | No | `https://cloud.langfuse.com` | Langfuse server URL |
+| `TRANSFORMERS_VERBOSITY` | No | — | Set to `error` to suppress transformers warnings |
+| `TRANSFORMERS_NO_ADVISORY_WARNINGS` | No | — | Set to `1` to suppress `__path__` advisory messages |
+| `TOKENIZERS_PARALLELISM` | No | — | Set to `false` to suppress tokenizer fork warnings |
 
 ---
 
-## 14. How to Add New Documents
+## 16. How to Add New Documents
 
 1. Drop any `.txt` or `.md` file into `data/sample_docs/`
 2. Delete `data/chroma_db/` to clear the old vector store
@@ -527,7 +666,7 @@ Version: 2.1
 
 ---
 
-## 15. How to Add a New MCP Tool
+## 17. How to Add a New MCP Tool
 
 **Step 1** — Write the logic in a new file `processors/my_tool.py`:
 ```python
@@ -568,7 +707,7 @@ my_analysis_result: dict
 
 ---
 
-## 16. Common Errors & Fixes
+## 18. Common Errors & Fixes
 
 | Error | Cause | Fix |
 |---|---|---|
@@ -579,3 +718,9 @@ my_analysis_result: dict
 | Empty answers | ChromaDB has no docs | Delete `data/chroma_db/` and rerun |
 | Slow first start | HuggingFace model downloading | One-time ~90MB download; cached after |
 | `GROQ_MODEL` not recognised | Wrong env var name | Must be `MODEL_NAME` (not `GROQ_MODEL`) |
+| `No module named 'langfuse.callback'` | Langfuse v3+ removed old import | Fixed — use `from langfuse.langchain import CallbackHandler` |
+| `LangchainCallbackHandler has no attribute 'get_trace_id'` | Langfuse v4 removed instance methods | Fixed — trace ID managed separately, URL via `lf.get_trace_url()` |
+| `invalid literal for int() with base 16` | UUID with dashes passed as trace ID | Fixed — `_to_trace_id()` strips dashes before every Langfuse call |
+| Torchvision errors in terminal | Streamlit file watcher scans transformers submodules | Fixed — `.streamlit/config.toml` sets `fileWatcherType = "none"` |
+| Langfuse shows "inactive" | Keys in `.env` not saved to disk | Ensure `.env` file is saved; `load_dotenv()` reads from disk not editor buffer |
+| All questions share one trace ID | `thread_id` reused as trace ID | Fixed — new `uuid4()` generated per question for Langfuse, `thread_id` kept stable for LangGraph |

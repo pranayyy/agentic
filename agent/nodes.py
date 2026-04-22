@@ -7,6 +7,7 @@ call the appropriate RAG / MCP / LLM logic, and return state patches.
 
 import os
 import json
+import logging
 from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_chroma import Chroma
@@ -15,6 +16,8 @@ from langgraph.types import interrupt
 from agent.state import AgentState
 from agent.utils import parse_llm_json
 from agent.mcp_client import call_mcp_tool
+
+log = logging.getLogger("agent.nodes")
 
 _MODEL = os.getenv("MODEL_NAME", "llama-3.3-70b-versatile")
 
@@ -32,6 +35,7 @@ _llm_json = ChatGroq(
 def analyze_query_node(state: AgentState) -> dict:
     """Extract intent and search keywords from the employee's question."""
     question = state.get("question", "")
+    log.info("[analyze_query] question=%r", question)
 
     resp = _llm_json.invoke(
         [
@@ -52,7 +56,7 @@ def analyze_query_node(state: AgentState) -> dict:
         resp.content,
         fallback={"intent": question, "keywords": question.split()[:5]},
     )
-
+    log.info("[analyze_query] intent=%r  keywords=%s", parsed.get("intent"), parsed.get("keywords"))
     return {
         "query_intent": parsed.get("intent", question),
         "query_keywords": parsed.get("keywords", []),
@@ -68,6 +72,7 @@ def make_search_internal_node(vectorstore: Chroma):
 
     def search_internal_node(state: AgentState) -> dict:
         question = state.get("question", "")
+        log.info("[search_internal] searching ChromaDB for: %r", question)
         results = vectorstore.similarity_search_with_score(question, k=5)
 
         internal_docs: list[dict] = []
@@ -85,7 +90,8 @@ def make_search_internal_node(vectorstore: Chroma):
         context = "\n\n---\n\n".join(
             f"[{d['title']}]\n{d['content']}" for d in internal_docs[:4]
         )
-
+        log.info("[search_internal] found %d docs, top score=%.4f",
+                 len(internal_docs), internal_docs[0]["relevance_score"] if internal_docs else 0)
         return {
             "internal_docs": internal_docs,
             "internal_context": context,
@@ -103,6 +109,7 @@ def evaluate_sufficiency_node(state: AgentState) -> dict:
     question = state.get("question", "")
     internal_context = state.get("internal_context", "")
     internal_docs = state.get("internal_docs", [])
+    log.info("[evaluate_sufficiency] evaluating %d internal docs", len(internal_docs))
 
     if not internal_docs or not internal_context.strip():
         return {"internal_sufficient": False}
@@ -127,7 +134,9 @@ def evaluate_sufficiency_node(state: AgentState) -> dict:
     )
 
     parsed = parse_llm_json(resp.content, fallback={"sufficient": False})
-    return {"internal_sufficient": bool(parsed.get("sufficient", False))}
+    sufficient = bool(parsed.get("sufficient", False))
+    log.info("[evaluate_sufficiency] sufficient=%s  reason=%r", sufficient, parsed.get("reason"))
+    return {"internal_sufficient": sufficient}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -138,6 +147,7 @@ def search_web_node(state: AgentState) -> dict:
     """Search the internet using Tavily for supplementary information."""
     question = state.get("question", "")
     query_intent = state.get("query_intent", question)
+    log.info("[search_web] Tavily query: %r", query_intent)
 
     try:
         from langchain_tavily import TavilySearch
@@ -164,7 +174,9 @@ def search_web_node(state: AgentState) -> dict:
     except Exception as exc:
         web_results = []
         web_context = f"(Web search unavailable: {exc})"
+        log.warning("[search_web] failed: %s", exc)
 
+    log.info("[search_web] got %d web results", len(web_results))
     return {
         "web_results": web_results,
         "web_context": web_context,
@@ -178,7 +190,8 @@ def search_web_node(state: AgentState) -> dict:
 
 def summarize_rank_node(state: AgentState) -> dict:
     """MCP Tool 1 — call `summarize_and_rank` via the FastMCP server in-process."""
-    return call_mcp_tool(
+    log.info("[summarize_rank] calling MCP tool summarize_and_rank")
+    result = call_mcp_tool(
         "summarize_and_rank",
         {
             "question": state.get("question", ""),
@@ -189,6 +202,8 @@ def summarize_rank_node(state: AgentState) -> dict:
             "web_searched": state.get("web_searched", False),
         },
     )
+    log.info("[summarize_rank] done, confidence=%.2f", result.get("confidence_score", 0))
+    return result
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -197,7 +212,8 @@ def summarize_rank_node(state: AgentState) -> dict:
 
 def highlight_differences_node(state: AgentState) -> dict:
     """MCP Tool 2 — call `highlight_differences` via the FastMCP server in-process."""
-    return call_mcp_tool(
+    log.info("[highlight_differences] calling MCP tool")
+    result = call_mcp_tool(
         "highlight_differences",
         {
             "question": state.get("question", ""),
@@ -206,6 +222,8 @@ def highlight_differences_node(state: AgentState) -> dict:
             "web_searched": state.get("web_searched", False),
         },
     )
+    log.info("[highlight_differences] found %d differences", len(result.get("differences", [])))
+    return result
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -214,7 +232,8 @@ def highlight_differences_node(state: AgentState) -> dict:
 
 def flag_issues_node(state: AgentState) -> dict:
     """MCP Tool 3 — call `flag_issues` via the FastMCP server in-process."""
-    return call_mcp_tool(
+    log.info("[flag_issues] calling MCP tool")
+    result = call_mcp_tool(
         "flag_issues",
         {
             "question": state.get("question", ""),
@@ -224,6 +243,9 @@ def flag_issues_node(state: AgentState) -> dict:
             "differences_json": json.dumps(state.get("differences", [])),
         },
     )
+    log.info("[flag_issues] flagged %d issues, needs_review=%s",
+             len(result.get("flagged_issues", [])), result.get("needs_human_review"))
+    return result
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -247,7 +269,9 @@ def human_review_node(state: AgentState) -> dict:
     }
 
     # Blocks here until Command(resume=...) is supplied
+    log.info("[human_review] PAUSED — waiting for human feedback")
     feedback = interrupt(review_payload)
+    log.info("[human_review] RESUMED with feedback: %r", str(feedback)[:120])
 
     return {"human_feedback": feedback or "No additional reviewer feedback."}
 
@@ -259,6 +283,7 @@ def human_review_node(state: AgentState) -> dict:
 def synthesize_answer_node(state: AgentState) -> dict:
     """Compose the final employee-facing answer with citations."""
     question = state.get("question", "")
+    log.info("[synthesize_answer] composing final answer for: %r", question)
     internal_summary = state.get("internal_summary", "")
     web_summary = state.get("web_summary", "")
     differences = state.get("differences", [])

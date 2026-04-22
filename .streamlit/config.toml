@@ -1,0 +1,11 @@
+[server]
+# Disable file watcher entirely - prevents Streamlit from scanning transformers
+# submodules which require torchvision (not installed). Hot-reload still works
+# via manual browser refresh.
+fileWatcherType = "none"
+
+[logger]
+level = "warning"
+
+[runner]
+fastReruns = true
