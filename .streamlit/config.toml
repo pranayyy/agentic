@@ -3,9 +3,15 @@
 # submodules which require torchvision (not installed). Hot-reload still works
 # via manual browser refresh.
 fileWatcherType = "none"
+# Allow long-running agent calls (10 minutes)
+maxUploadSize = 200
+
+[browser]
+serverAddress = "localhost"
 
 [logger]
 level = "warning"
 
 [runner]
 fastReruns = true
+magicEnabled = false
